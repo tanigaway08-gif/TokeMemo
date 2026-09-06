@@ -1,0 +1,125 @@
+<style>
+  /* 全体のレイアウト（一覧画面と同じ） */
+  .dashboard-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  .sidebar {
+    width: 20%;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+  }
+  .main-content {
+    width: 80%;
+    padding: 30px;
+  }
+  .search-group {
+    margin-bottom: 20px;
+  }
+
+  /* 右側の詳細エリア専用のデザイン */
+  .header-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  .detail-section {
+    margin-bottom: 30px;
+  }
+  .detail-section h3 {
+    color: #555;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+  }
+  /* コード（使用例）を見やすくする黒背景の枠 */
+  .code-block {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: monospace;
+  }
+  /* 言語のラベル */
+  .lang-badge {
+    display: inline-block;
+    background-color: #e9ecef;
+    color: #333;
+    padding: 5px 12px;
+    border-radius: 15px;
+    margin-right: 8px;
+    font-size: 0.9em;
+  }
+</style>
+
+<div class="dashboard-container">
+  <!-- 左側：検索エリア（詳細画面からもすぐに検索できるように配置） -->
+  <div class="sidebar">
+    <h3>検索</h3>
+    <%= form_with url: tokens_path, method: :get, local: true do |form| %>
+      <div class="search-group">
+        <%= form.label :keyword, "キーワード" %><br>
+        <%= form.text_field :keyword, style: "width: 100%;" %>
+      </div>
+
+      <div class="search-group">
+        <label>言語</label><br>
+        <%= form.check_box :lang_html %> HTML<br>
+        <%= form.check_box :lang_css %> CSS<br>
+        <%= form.check_box :lang_javascript %> JS<br>
+        <%= form.check_box :lang_ruby %> Ruby<br>
+        <%= form.check_box :lang_rails %> Rails<br>
+        <%= form.check_box :lang_other %> その他
+      </div>
+
+      <%= form.submit "検索する", style: "width: 100%; cursor: pointer;" %>
+    <% end %>
+  </div>
+
+  <!-- 右側：詳細表示エリア -->
+  <div class="main-content">
+    
+    <div class="header-area">
+      <h2 style="margin: 0; font-size: 2em;"><%= @token.code %></h2>
+      <%= link_to "一覧に戻る", tokens_path, style: "padding: 8px 16px; background-color: #ddd; color: #333; text-decoration: none; border-radius: 4px;" %>
+    </div>
+
+    <!-- 意味・翻訳 -->
+    <div class="detail-section">
+      <h3>意味・翻訳</h3>
+      <div><%= simple_format(@token.translation) %></div>
+    </div>
+
+    <!-- 使用例（黒背景のコードブロック風） -->
+    <div class="detail-section">
+      <h3>使用例</h3>
+      <div class="code-block">
+        <%= simple_format(@token.example) %>
+      </div>
+    </div>
+
+    <!-- 自分のメモ -->
+    <div class="detail-section">
+      <h3>自分のメモ</h3>
+      <div><%= simple_format(@token.memo) %></div>
+    </div>
+
+    <!-- 関連言語（trueになっているものだけを表示） -->
+    <div class="detail-section">
+      <h3>関連言語</h3>
+      <div>
+        <% if @token.lang_html %><span class="lang-badge">HTML</span><% end %>
+        <% if @token.lang_css %><span class="lang-badge">CSS</span><% end %>
+        <% if @token.lang_javascript %><span class="lang-badge">JavaScript</span><% end %>
+        <% if @token.lang_ruby %><span class="lang-badge">Ruby</span><% end %>
+        <% if @token.lang_rails %><span class="lang-badge">Rails</span><% end %>
+        <% if @token.lang_other %><span class="lang-badge">その他</span><% end %>
+      </div>
+    </div>
+
+  </div>
+</div>

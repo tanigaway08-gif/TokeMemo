@@ -1,0 +1,86 @@
+<style>
+  /* 画面全体のレイアウト */
+  .dashboard-container {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* 左側の検索エリア（全体の1/5 = 20%） */
+  .sidebar {
+    width: 20%;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+  }
+
+  /* 右側の結果一覧エリア（全体の4/5 = 80%） */
+  .main-content {
+    width: 80%;
+    padding: 20px;
+  }
+
+  /* 検索フォームの各項目 */
+  .search-group {
+    margin-bottom: 20px;
+  }
+  
+  /* 検索結果のカードデザイン */
+  .result-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between; /* タイトルとボタンを左右に分ける */
+    align-items: center;
+  }
+</style>
+
+<div class="dashboard-container">
+  <!-- 左側：検索エリア -->
+  <div class="sidebar">
+    <h3>検索</h3>
+    <!-- 検索フォーム（GETメソッドでindexアクションに送信） -->
+    <%= form_with url: tokens_path, method: :get, local: true do |form| %>
+      <div class="search-group">
+        <%= form.label :keyword, "キーワード" %><br>
+        <%= form.text_field :keyword, value: params[:keyword], style: "width: 100%;" %>
+      </div>
+
+      <div class="search-group">
+        <label>言語</label><br>
+        <%= form.check_box :lang_html %> HTML<br>
+        <%= form.check_box :lang_css %> CSS<br>
+        <%= form.check_box :lang_javascript %> JS<br>
+        <%= form.check_box :lang_ruby %> Ruby<br>
+        <%= form.check_box :lang_rails %> Rails<br>
+        <%= form.check_box :lang_other %> その他
+      </div>
+
+      <%= form.submit "検索する", style: "width: 100%;" %>
+    <% end %>
+  </div>
+
+  <!-- 右側：結果一覧エリア -->
+  <div class="main-content">
+    <h2>登録データ一覧</h2>
+
+    <% @tokens.each do |token| %>
+      <div class="result-card">
+        <div>
+          <h3 style="margin: 0;"><%= token.code %></h3>
+          <!-- 必要に応じて他の情報（言語名など）も表示 -->
+        </div>
+        
+        <!-- 詳細画面へのリンクボタン -->
+        <div>
+          <%= link_to "詳細", token_path(token), class: "btn-detail" %>
+        </div>
+      </div>
+    <% end %>
+    
+    <% if @tokens.empty? %>
+      <p>該当するデータがありません。</p>
+    <% end %>
+  </div>
+</div>

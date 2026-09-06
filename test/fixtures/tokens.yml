@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  code: MyText
+  translation: MyText
+  lang_html: false
+  lang_css: false
+  lang_javascript: false
+  lang_ruby: false
+  lang_rails: false
+
+two:
+  title: MyString
+  code: MyText
+  translation: MyText
+  lang_html: false
+  lang_css: false
+  lang_javascript: false
+  lang_ruby: false
+  lang_rails: false

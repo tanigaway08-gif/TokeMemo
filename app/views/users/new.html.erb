@@ -1,0 +1,73 @@
+<h1>ユーザー登録</h1>
+
+<style>
+  /* フォームの各項目のまとまり */
+  .form-group {
+    display: flex;
+    align-items: center; /* ラベルと入力欄の縦の中央を揃える */
+    margin-bottom: 30px; /* 上下の間隔を大きく開ける（数値を増やすとさらに広がります） */
+  }
+  
+  /* ラベル（名前、メールアドレスなど）のスタイル */
+  .form-group label {
+    width: 160px; /* 一番長い「パスワード（確認）」に合わせる */
+    font-weight: bold;
+    text-align: right; /* 右寄せにするとより綺麗に見えます（好みで外してください） */
+    margin-right: 20px; /* ラベルと入力欄の間の隙間 */
+  }
+
+  /* 入力欄のスタイル */
+  .form-group input {
+    width: 250px;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  /* 登録ボタンのスタイル */
+  .submit-group {
+    margin-top: 40px; /* ボタンの上の間隔 */
+    padding-left: 180px; /* ラベル幅(160px) + マージン(20px) 分ずらして入力欄と揃える */
+  }
+  
+  .submit-group input[type="submit"] {
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+</style>
+
+<!-- @userには、コントローラーで作った User.new（空のデータ）が入っています -->
+    <%= form_with model: @user do |form| %>
+
+        <div class="form-group">
+            <%= form.label :name, "名前" %>
+            <%= form.text_field :name %>
+        </div>
+
+        <div class="form-group">
+            <%= form.label :email, "メールアドレス" %>
+            <%= form.email_field :email %>
+        </div>
+
+        <div class="form-group">
+            <%= form.label :password, "パスワード" %>
+            <%= form.password_field :password %>
+        </div>
+
+        <div class="form-group">
+            <%= form.label :password_confirmation, "パスワード（確認）" %>
+            <%= form.password_field :password_confirmation %>
+        </div>
+
+        <div>
+        <!-- 実際にある他のカラム（nameなど）を追加する場合はここに書きます -->
+        </div>
+
+        <div  class="submit-group">
+            <%= form.submit "登録する" %>
+        </div>
+    <% end %>
+
+    <div style="margin-top: 20px; padding-left: 180px;">
+        すでにアカウントをお持ちの方は
+        <%= link_to "ログインはこちら", login_path %>
+    </div>
