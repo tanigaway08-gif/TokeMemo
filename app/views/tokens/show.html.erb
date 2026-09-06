@@ -37,12 +37,11 @@
   }
   /* コード（使用例）を見やすくする黒背景の枠 */
   .code-block {
-    background-color: #282c34;
-    color: #abb2bf;
     padding: 15px;
     border-radius: 5px;
     overflow-x: auto;
     font-family: monospace;
+    marfin: 0;
   }
   /* 言語のラベル */
   .lang-badge {
@@ -85,7 +84,17 @@
     
     <div class="header-area">
       <h2 style="margin: 0; font-size: 2em;"><%= @token.code %></h2>
-      <%= link_to "一覧に戻る", tokens_path, style: "padding: 8px 16px; background-color: #ddd; color: #333; text-decoration: none; border-radius: 4px;" %>
+        <!-- ボタンを並べるエリア -->
+        <div>
+            <%= link_to "編集", edit_token_path(@token), style: "padding: 8px 16px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px;" %>
+            <%= link_to "一覧に戻る", tokens_path, style: "padding: 8px 16px; background-color: #ddd; color: #333; text-decoration: none; border-radius: 4px;" %>
+        </div>
+
+      <!-- 削除ボタン（赤色で表示し、確認メッセージを出す） -->
+          <%= link_to "削除", token_path(@token), 
+              data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, 
+              style: "color: red; text-decoration: none;" %>
+
     </div>
 
     <!-- 意味・翻訳 -->
@@ -95,11 +104,10 @@
     </div>
 
     <!-- 使用例（黒背景のコードブロック風） -->
+    <!-- 使用例（黒背景のコードブロック風） -->
     <div class="detail-section">
       <h3>使用例</h3>
-      <div class="code-block">
-        <%= simple_format(@token.example) %>
-      </div>
+      <pre class="code-block"><code><%= @token.example %></code></pre>
     </div>
 
     <!-- 自分のメモ -->

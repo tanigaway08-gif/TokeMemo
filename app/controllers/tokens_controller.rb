@@ -1,14 +1,21 @@
 class TokensController < ApplicationController
   def index
-    # 基本は全件取得（新しい順）
+    # 1. まず全件取得（新しい順）
     @tokens = Token.all.order(created_at: :desc)
 
-    # キーワード検索が送信された場合の絞り込み処理
+    # 2. キーワード検索（code カラムから検索）
     if params[:keyword].present?
-      @tokens = @tokens.where("title LIKE ?", "%#{params[:keyword]}%")
+      @tokens = @tokens.where("code LIKE ?", "%#{params[:keyword]}%")
     end
-    
-    # ※チェックボックス（言語指定）の検索処理も必要に応じてここに追加します
+
+    # 3. 言語のチェックボックス検索（チェックが入っている場合は "1" が送られてきます）
+    # 該当する言語が true になっているデータだけをさらに絞り込みます
+    @tokens = @tokens.where(lang_html: true)       if params[:lang_html] == "1"
+    @tokens = @tokens.where(lang_css: true)        if params[:lang_css] == "1"
+    @tokens = @tokens.where(lang_javascript: true) if params[:lang_javascript] == "1"
+    @tokens = @tokens.where(lang_ruby: true)       if params[:lang_ruby] == "1"
+    @tokens = @tokens.where(lang_rails: true)      if params[:lang_rails] == "1"
+    @tokens = @tokens.where(lang_other: true)      if params[:lang_other] == "1"
   end
 
   def show
@@ -33,6 +40,38 @@ class TokensController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+  def edit
+    # 編集するデータを見つけてフォームに渡す
+    @token = Token.find(params[:id])
+  end
+
+  def update
+    # 更新するデータを見つける
+    @token = Token.find(params[:id])
+    
+    # 新しいデータで上書き保存する
+    if @token.update(token_params)
+      # 成功したら詳細画面へ
+      redirect_to token_path(@token), notice: "データを更新しました"
+    else
+      # 失敗したら編集画面を再表示
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    # 1. 削除したいデータを見つける
+    @token = Token.find(params[:id])
+    
+    # 2. データをデータベースから削除する
+    @token.destroy
+    
+    # 3. 削除後、一覧画面に戻る
+    redirect_to tokens_path, notice: "データを削除しました", status: :see_other
+  end
+
+
 
   private
 

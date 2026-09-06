@@ -42,22 +42,26 @@
     <h3>検索</h3>
     <!-- 検索フォーム（GETメソッドでindexアクションに送信） -->
     <%= form_with url: tokens_path, method: :get, local: true do |form| %>
-      <div class="search-group">
-        <%= form.label :keyword, "キーワード" %><br>
-        <%= form.text_field :keyword, value: params[:keyword], style: "width: 100%;" %>
-      </div>
 
-      <div class="search-group">
-        <label>言語</label><br>
-        <%= form.check_box :lang_html %> HTML<br>
-        <%= form.check_box :lang_css %> CSS<br>
-        <%= form.check_box :lang_javascript %> JS<br>
-        <%= form.check_box :lang_ruby %> Ruby<br>
-        <%= form.check_box :lang_rails %> Rails<br>
-        <%= form.check_box :lang_other %> その他
-      </div>
+        <div class="search-group">
+            <%= form.label :keyword, "キーワード" %><br>
+            <!-- 検索したキーワードを残す (value: params[:keyword]) -->
+            <%= form.text_field :keyword, value: params[:keyword], style: "width: 100%;" %>
+        </div>
 
-      <%= form.submit "検索する", style: "width: 100%;" %>
+        <div class="search-group">
+            <label>言語</label><br>
+            <!-- チェック状態を残す (checked: params[...] == "1") -->
+            <%= form.check_box :lang_html, checked: params[:lang_html] == "1" %> HTML<br>
+            <%= form.check_box :lang_css, checked: params[:lang_css] == "1" %> CSS<br>
+            <%= form.check_box :lang_javascript, checked: params[:lang_javascript] == "1" %> JS<br>
+            <%= form.check_box :lang_ruby, checked: params[:lang_ruby] == "1" %> Ruby<br>
+            <%= form.check_box :lang_rails, checked: params[:lang_rails] == "1" %> Rails<br>
+            <%= form.check_box :lang_other, checked: params[:lang_other] == "1" %> その他
+        </div>
+
+        <%= form.submit "検索する", style: "width: 100%; cursor: pointer;" %>
+
     <% end %>
   </div>
 
@@ -75,6 +79,11 @@
         <!-- 詳細画面へのリンクボタン -->
         <div>
           <%= link_to "詳細", token_path(token), class: "btn-detail" %>
+
+          <!-- 削除ボタン（赤色で表示し、確認メッセージを出す） -->
+          <%= link_to "削除", token_path(token), 
+              data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, 
+              style: "color: red; text-decoration: none;" %>
         </div>
       </div>
     <% end %>
