@@ -77,9 +77,9 @@
     </div>
   </div>
 
-  <div style="margin-top: 30px; padding-left: 120px;">
-    <!-- 新規作成時は「登録する」、更新時は「更新する」に自動で変わります -->
-    <%= form.submit style: "padding: 10px 20px; cursor: pointer;" %>
+ <div style="margin-top: 30px; padding-left: 120px;">
+    <!-- token.new_record? を使って新規か更新かを判定します -->
+    <%= form.submit token.new_record? ? "登録する" : "更新する", style: "padding: 10px 20px; cursor: pointer;" %>
   </div>
 
 <% end %>
