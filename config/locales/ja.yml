@@ -20,3 +20,10 @@ ja:
           attributes:
             email:
               taken: "はすでに使用されています。"
+              errors:
+    attributes:
+      token:
+        code: "コード"
+  errors:
+    messages:
+      blank: "を入力してください"
