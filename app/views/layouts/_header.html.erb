@@ -1,0 +1,24 @@
+<!-- app/views/layouts/_header.html.erb -->
+
+<!-- 先ほど設定した背景色（薄い緑）に合わせる場合は、styleで指定するか bg-light 等を使います -->
+<nav class="navbar navbar-expand-lg sticky-top" style="background-color: #e8f5e9; border-bottom: 1px solid #ddd; padding-top: 20px; padding-bottom: 20px;">
+  <div class="container-fluid">
+    
+    <!-- 左側：タイトル -->
+  <%= link_to 'TokeMemo 🐾', root_path, class: 'navbar-brand fw-bold fs-2' %>
+
+    <!-- 右側：ログイン・ログアウトボタン -->
+    <div class="d-flex align-items-center">
+    <% if user_signed_in? %>
+        <!-- ▼ ログイン中の表示 ▼ -->
+        <span class="me-3 fw-bold text-secondary">
+        こんにちは、<%= current_user.name %>さん
+        </span>
+        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-danger" %>
+    <% else %>
+        <!-- ▼ 未ログイン時の表示（必要に応じて） ▼ -->
+        <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary me-2" %>
+        <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary" %>
+    <% end %>
+    </div>
+</nav>

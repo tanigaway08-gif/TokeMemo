@@ -1,2 +1,26 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+
+
+body {
+  /* 余白部分に表示される背景色 */
+  background-color: #f4f6f4 !important; 
+  color: #333333 !important; 
+
+//   /* 現在の画像のパス */
+//   background-image: url('/top_background.jpg') !important; 
+
+//   /* 画像を1枚だけ表示（繰り返さない） */
+//   background-repeat: no-repeat !important; 
+  
+//   /* 画面の上下左右のど真ん中に配置 */
+//   background-position: center center !important; 
+
+//   /* ★ポイント：画像が切れないように、画面内に全体を収める */
+//   background-size: contain !important; 
+  
+//   /* スクロールしても中央に固定 */
+//   background-attachment: fixed !important; 
+  
+  min-height: 100vh !important;
+}

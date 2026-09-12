@@ -1,4 +1,7 @@
 class Token < ApplicationRecord
+
+    belongs_to :user
+    
     validates :code, presence: true
 
         # カスタムバリデーションの呼び出し

@@ -31,6 +31,8 @@
     font-weight: normal;
     cursor: pointer;
   }
+
+  
 </style>
 
 <%= form_with model: token, local: true do |form| %>
@@ -61,7 +63,7 @@
   </div>
 
   <div class="form-group">
-    <%= form.label :memo, "自分のメモ" %>
+    <%= form.label :memo, "Memo" %>
     <%= form.text_area :memo, class: "input-large" %>
   </div>
 
@@ -70,7 +72,7 @@
     <div class="checkbox-group">
       <label><%= form.check_box :lang_html %> HTML</label>
       <label><%= form.check_box :lang_css %> CSS</label>
-      <label><%= form.check_box :lang_javascript %> JS</label>
+      <label><%= form.check_box :lang_javascript %> JavaScript</label>
       <label><%= form.check_box :lang_ruby %> Ruby</label>
       <label><%= form.check_box :lang_rails %> Rails</label>
       <label><%= form.check_box :lang_other %> その他</label>

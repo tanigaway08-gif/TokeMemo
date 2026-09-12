@@ -23,15 +23,15 @@
   }
 </style>
 
-    <%= form_with url: tokens_path, local: true do |form| %>
+    <%= form_with url: login_path, local: true do |form| %>
         <div class="form-group">
             <%= form.label :email, "メールアドレス" %>
-            <%= form.email_field :email %>
+            <%= form.email_field :email , autofocus: true, autocomplete: "email" %>
         </div>
 
         <div class="form-group">
             <%= form.label :password, "パスワード" %>
-            <%= form.password_field :password %>
+            <%= form.password_field :password, autocomplete: "new-password" %>
         </div>
 
         <div class="submit-group">
@@ -41,6 +41,10 @@
 
     <div style="margin-top: 20px; padding-left: 180px;">
         アカウントをお持ちでない場合は
-        <%= link_to "新規登録はこちら", new_user_path %>
+        <%= link_to "新規登録はこちら", new_user_registration_path %>
     </div>
 
+        <div class="submit-group">
+      <%# ログインしていない時に表示するエリアに追加 %>
+      <%= button_to "ゲストログイン", users_guest_sign_in_path, class: "btn btn-success" %>
+        </div>

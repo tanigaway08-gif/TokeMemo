@@ -1,0 +1,22 @@
+ja:
+  devise:
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+      already_signed_out: "すでにログアウト済みです。"
+    registrations:
+      signed_up: "アカウント登録が完了しました。"
+      signed_up_but_inactive: "アカウント登録が完了しました。しかし、アカウントが有効化されていません。"
+      signed_up_but_locked: "アカウント登録が完了しましたが、ロックされています。"
+      signed_up_but_unconfirmed: "確認メールを送信しました。リンクをクリックしてアカウントを有効化してください。"
+      updated: "アカウント情報を変更しました。"
+      destroyed: "アカウントを削除しました。またのご利用をお待ちしております。"
+    failure:
+      already_authenticated: "すでにログインしています。"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "はすでに使用されています。"

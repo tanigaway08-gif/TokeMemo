@@ -2,9 +2,9 @@
   /* 一覧のカードデザインだけ残す */
   .result-card {
     border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 5px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 5x;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,7 +18,7 @@
     text-decoration: none;
     border-radius: 4px;
     margin-right: 10px;
-    font-size: 0.9em;
+    font-size: 0.85em;
     transition: 0.2s;
   }
   .btn-detail:hover {
@@ -32,29 +32,58 @@
     color: white;
     text-decoration: none;
     border-radius: 4px;
-    font-size: 0.9em;
+    font-size: 0.85em;
     transition: 0.2s;
   }
   .btn-delete:hover {
     background-color: #c82333; /* マウスを乗せたら少し暗くする */
   }
+
+.lang-badge {
+    display: inline-block;
+    background-color: #e2e6ea;
+    color: #333;
+    padding: 3px 10px;         /* 変更：上下・左右の余白を小さくしました */
+    border-radius: 20px;
+    font-size: 0.75em;         /* 変更：文字サイズをさらに小さくしました */
+    text-decoration: none;
+    white-space: nowrap;       /* 追加：タグ自体が途中で変に改行されないように保護します */
+  }
+
 </style>
 
 <h1>一覧画面</h1>
 
 <% @tokens.each do |token| %>
   <div class="result-card">
-    <div>
-      <h3 style="margin: 0;"><%= token.code %></h3>
-    </div>
-    
-    <!-- ▼ リンクにクラス（class）を適用してボタン化 ▼ -->
-    <div>
-      <%= link_to "詳細", token_path(token), class: "btn-detail" %>
+  <div style="display: flex; align-items: center; gap: 20px; flex-grow: 1;">
       
+      <!-- ▼ 修正：widthで幅を固定し、flex-shrink: 0 で縮まないようにする ▼ -->
+      <h5 style="margin: 0; font-weight: bold; width: 200px; flex-shrink: 0; word-break: break-all;">
+        <%= token.code %>
+      </h5>
+      
+      <!-- ▼ 詳細画面と同じ lang-badge を使用し、タグ同士の隙間も整える ▼ -->
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <% if token.lang_html %><span class="lang-badge">HTML</span><% end %>
+        <% if token.lang_css %><span class="lang-badge">CSS</span><% end %>
+        <% if token.lang_javascript %><span class="lang-badge">JavaScript</span><% end %>
+        <% if token.lang_ruby %><span class="lang-badge">Ruby</span><% end %>
+        <% if token.lang_rails %><span class="lang-badge">Rails</span><% end %>
+        <% if token.lang_other %><span class="lang-badge">その他</span><% end %>
+      </div>
+    </div>
+
+    <!-- ▼ リンクにクラス（class）を適用してボタン化 ▼ -->
+    <div style="display: flex; flex-shrink: 0;">
+      <%= link_to "詳細", token_path(token), class: "btn-detail" %>
       <%= link_to "削除", token_path(token), 
           data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, 
           class: "btn-delete" %>
     </div>
   </div>
 <% end %>
+
+<div class="mt-4 d-flex justify-content-center">
+  <%= paginate @tokens %>
+</div>

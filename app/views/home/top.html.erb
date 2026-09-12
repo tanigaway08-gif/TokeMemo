@@ -1,0 +1,75 @@
+<style>
+  /* トップ画面のみ背景色を白（画像と同じ色）にする */
+  body {
+    background-color: #ffffff !important;
+  }
+</style>
+
+<div class="container mt-4"> <!-- mt-5 を mt-4 に少し縮小 -->
+  <!-- ファーストビュー（上部） -->
+  <div class="row align-items-center mb-4"> <!-- pb-5 を削除し、余白を詰める -->
+    
+    <!-- 左側：キャッチコピーとボタン -->
+    <div class="col-lg-6 text-center text-lg-start mb-4 mb-lg-0">
+      <h1 class="display-5 fw-bold mb-3">TokeMemo 🐾</h1> <!-- display-4 から display-5 に変更して少しコンパクトに -->
+      <p class="lead text-muted mb-5">
+        コードの切れ端や学習メモを、サクッと保存して瞬時に見つけ出す。あなたのプログラミング学習を加速させるメモアプリです。
+      </p>
+      
+      <!-- ボタンサイズを btn-lg から通常サイズに変更して省スペース化 -->
+      <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-lg-start">
+        <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary px-4" %>
+        <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary px-4" %>
+        <%= link_to "ゲストログイン", users_guest_sign_in_path, data: { turbo_method: :post }, class: "btn btn-success px-4" %>
+      </div>
+    </div>
+
+    <!-- 右側：アプリの画像 -->
+    <div class="col-lg-6 text-center">
+      <!-- 【重要】styleで max-height を指定し、画像が大きくなりすぎるのを防ぐ -->
+      <%= image_tag "dog.jpg", class: "img-fluid rounded", alt: "TokeMemoの画面イメージ", style: "max-height: 400px; object-fit: contain;" %>
+    </div>
+  </div>
+
+  <!-- 【重要】縦幅を取る <hr> (区切り線) を削除しました -->
+
+  <!-- アプリの特徴（下部） -->
+  <div class="row mt-2"> <!-- mt-5 から mt-2 に縮小 -->
+    <div class="col-12 text-center mb-4"> <!-- mb-5 から mb-3 に縮小 -->
+      <h3 class="fw-bold">TokeMemoの3つの特徴</h3> <!-- h2 から h3 に変更 -->
+    </div>
+    
+    <div class="col-md-4 mb-3"> <!-- mb-4 から mb-3 に縮小 -->
+      <div class="card h-100 shadow-sm border-0 bg-light">
+        <div class="card-body text-center p-3"> <!-- p-4 から p-3 に縮小 -->
+          <h5 class="card-title fw-bold mb-2">🔍 瞬時に検索</h5>
+          <p class="card-text text-muted small"> <!-- 文字サイズを small にして収まりを良くする -->
+            言語ごとのタグやキーワードで、過去に書いたコードや和訳をすぐに見つけ出すことができます。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm border-0 bg-light">
+        <div class="card-body text-center p-3">
+          <h5 class="card-title fw-bold mb-2">📝 シンプルな記録</h5>
+          <p class="card-text text-muted small">
+            コード、和訳、メモなど、必要な情報だけを整理して保存できる無駄のないシンプルなデザインです。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm border-0 bg-light">
+        <div class="card-body text-center p-3">
+          <h5 class="card-title fw-bold mb-2">🚀 ゲストですぐ体験</h5>
+          <p class="card-text text-muted small">
+            面倒な登録なしで、ボタン一つでアプリのすべての機能をすぐにお試しいただけます。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

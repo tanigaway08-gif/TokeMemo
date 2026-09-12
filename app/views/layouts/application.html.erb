@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
   <head>
     <title><%= content_for(:title) || "Myapp" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -33,75 +32,115 @@
 
     <style>
       body {
-        margin: 0;
-        overflow-x: hidden;
-      }
-      .dashboard-container {
-        display: flex;
-        min-height: 100vh;
-        max-width: 1000px;
-        margin: 0 auto;
-      }
-      .sidebar {
-        width: 20%;
-        padding: 120px 10px 20px 10px;
-        background-color: #f8f9fa;
-        border-right: 1px solid #ddd;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .sidebar::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 100%;
-        width: 100vw;
-        background-color: #f8f9fa;
-      }
-      .sidebar h3 {
-        text-align: center;
-        width: 100%;
-        margin-top: 0;
-      }
-      .sidebar form {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .search-group {
-        margin-bottom: 20px;
-        width: 100%;
-        text-align: center; /* ← キーワードや言語の文字を中央にする設定 */
-      }
-      .sidebar input[type="text"] {
-        width: 100%;
-        max-width: 180px;
-        box-sizing: border-box;
-      }
-      .sidebar input[type="submit"] {
-        width: 100%;
-        max-width: 180px;
-        box-sizing: border-box;
-      }
-      .main-content {
-        width: 80%;
-        padding: 30px;
-      }
+    margin: 0;
+    overflow-x: hidden;
+  }
+  .dashboard-container {
+    display: flex;
+    min-height: 100vh; /* ※1000vhから100vh(画面ぴったり)にするのがオススメです */
+    width: 100%;
+    <%# max-width: 2000px;
+    margin: 0 auto; %>
+  }
+
+  /* ▼ フォーム用の設定（今回新しく追加したもの） ▼ */
+  .form-group {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+  }
+  .form-group > label {
+    width: 120px;
+    min-width: 120px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  .input-short {
+    width: 300px;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  .input-large {
+    width: 500px;
+    height: 120px;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 5px;
+  }
+  .checkbox-group label {
+    font-weight: normal;
+    cursor: pointer;
+  }
+
+  /* ▼ サイドバーとメインコンテンツ（今回書き換えた部分） ▼ */
+  .sidebar {
+    width: 250px;
+    padding: 80px 40px 40px 20px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
+  <%# .sidebar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    width: 100vw;
+    background-color: #f8f9fa;
+  }  %>
+
+  .sidebar h3 {
+    text-align: left;
+    width: 100%;
+    margin-top: 0;
+  }
+  .sidebar form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .search-group {
+    margin-bottom: 40px;
+    width: 100%;
+    text-align: left;
+  }
+  .sidebar input[type="text"],
+  .sidebar input[type="submit"] {
+    width: 100%;
+    max-width: 200px;
+    box-sizing: border-box;
+  }
+
+  .main-content {
+    width: calc(100% - 220px);
+    padding: 30px;
+    box-sizing: border-box;
+  }
     </style>
 
-  </head>
+</head>
 
   <body>
-      <!-- フラッシュメッセージ（通知）の表示エリア -->
-      <% if flash[:notice] %>
-        <div style="background-color: #d4edda; color: #155724; padding: 10px; text-align: center;">
-          <%= flash[:notice] %>
-        </div>
-      <% end %>
+    <%= render 'layouts/header' %>
+
+    <% if notice %>
+      <div class="alert alert-success text-center　mb-0"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="alert alert-danger text-center mb-0"><%= alert %></div>
+    <% end %>
 
       <div class="dashboard-container">
         <!-- ▼ 左側：全ページ共通のサイドバー（検索エリア） ▼ -->
@@ -117,13 +156,13 @@
             </div>
 
           <div class="search-group">
-          <label>言語</label><br>
+          <label>言語・フレームワーク</label><br>
 
           <!-- ▼ チェックボックスの集まりを、左揃えのまま全体を中央に寄せる ▼ -->
           <div style="display: inline-block; text-align: left;">
             <%= form.check_box :lang_html, checked: params[:lang_html] == "1" %> HTML<br>
             <%= form.check_box :lang_css, checked: params[:lang_css] == "1" %> CSS<br>
-            <%= form.check_box :lang_javascript, checked: params[:lang_javascript] == "1" %> JS<br>
+            <%= form.check_box :lang_javascript, checked: params[:lang_javascript] == "1" %> JavaScript<br>
             <%= form.check_box :lang_ruby, checked: params[:lang_ruby] == "1" %> Ruby<br>
             <%= form.check_box :lang_rails, checked: params[:lang_rails] == "1" %> Rails<br>
             <%= form.check_box :lang_other, checked: params[:lang_other] == "1" %> その他
@@ -134,7 +173,7 @@
           <% end %>
 
           <div style="margin-top: 30px; width: 100%;">
-            <%= link_to "新規登録", new_token_path, style: "display: block; margin: 0 auto; max-width: 180px; text-align: center; padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; box-sizing: border-box;" %>
+            <%= link_to "新規登録", new_token_path, style: "display: block; margin: 0 ; max-width: 200px; text-align: center; padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; box-sizing: border-box;" %>
           </div>
         <% end %>
 
