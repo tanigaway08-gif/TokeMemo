@@ -51,6 +51,15 @@
     text-decoration: none;
     white-space: nowrap;       /* 追加：タグ自体が途中で変に改行されないように保護します */
   }
+
+  /* パソコン画面（768px以上）の時だけタイトル幅を固定する */
+  @media (min-width: 768px) {
+    .token-title {
+      width: 300px; /* 一番長い文字が収まるように調整してください（例: 250px） */
+      flex-shrink: 0;
+    }
+  }
+
 <%# .pagination {
     flex-wrap: wrap;         /* 万が一はみ出た場合は折り返す */
     justify-content: center; /* 中央寄せ */
@@ -83,7 +92,7 @@
           <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center flex-grow-1" style="gap: 8px; min-width: 0;">
               
               <!-- タイトル -->
-              <h5 style="margin: 0; font-weight: bold; word-break: break-all;">
+              <h5 class="token-title" style="margin: 0; font-weight: bold; word-break: break-all;">
                 <%= token.code %>
               </h5>
               
