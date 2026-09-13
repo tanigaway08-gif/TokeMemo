@@ -69,5 +69,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'devise', '~> 4.8' 
+gem 'devise', '~> 5.0' 
 gem 'kaminari'
