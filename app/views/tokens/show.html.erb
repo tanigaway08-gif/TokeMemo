@@ -53,6 +53,12 @@
 
 </style>
 
+
+<div class="container mt-4 px-3">
+  <div class="row">
+    <!-- ▼ 修正：全角スペースを半角に直しました -->
+    <div class="col-12 col-md-6 ps-4">
+      
 <div class="header-area">
   <h2 style="margin: 0; font-size: 2em;"><%= @token.code %></h2>
   
@@ -88,5 +94,9 @@
     <% if @token.lang_ruby %><span class="lang-badge">Ruby</span><% end %>
     <% if @token.lang_rails %><span class="lang-badge">Rails</span><% end %>
     <% if @token.lang_other %><span class="lang-badge">その他</span><% end %>
+  </div>
+</div>
+
+    </div>
   </div>
 </div>

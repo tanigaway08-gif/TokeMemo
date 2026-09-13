@@ -4,10 +4,12 @@
     border: 1px solid #ddd;
     padding: 12px;
     margin-bottom: 8px;
-    border-radius: 5x;
+    border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%; /* ← これを追加 */
+    box-sizing: border-box; /* ← はみ出し防止のために追加 */
   }
 
   .btn-detail {
@@ -49,41 +51,67 @@
     text-decoration: none;
     white-space: nowrap;       /* 追加：タグ自体が途中で変に改行されないように保護します */
   }
+<%# .pagination {
+    flex-wrap: wrap;         /* 万が一はみ出た場合は折り返す */
+    justify-content: center; /* 中央寄せ */
+    gap: 2px;                /* ボタン同士の隙間を少し空ける */
+  }
+
+  /* ▼ 追加：ページネーションのボタン(リンク)自体を小さくする */
+  .pagination .page-link {
+    padding: 0.25rem 0.5rem; /* 上下・左右の余白を小さく */
+    font-size: 0.75rem;      /* 文字サイズを小さく */
+    border-radius: 4px;      /* 角を少し丸くする（お好みで） */
+  } %>
 
 </style>
 
-<h1>一覧画面</h1>
+<!-- 修正後 -->
+<!-- container を container-fluid に変更し、画面いっぱいに広げる -->
+<div class="container-fluid mt-4 px-3">
+  <!-- 不要な余白を防ぐため m-0 を追加 -->
+  <div class="row m-0">
+    <!-- col-md-6 を削除し、col-12 だけで全幅を使う -->
+    <div class="col-12 p-0">
+      
+      <h1 class="h3 mb-4">一覧画面</h1>
 
-<% @tokens.each do |token| %>
-  <div class="result-card">
-  <div style="display: flex; align-items: center; gap: 20px; flex-grow: 1;">
-      
-      <!-- ▼ 修正：widthで幅を固定し、flex-shrink: 0 で縮まないようにする ▼ -->
-      <h5 style="margin: 0; font-weight: bold; width: 200px; flex-shrink: 0; word-break: break-all;">
-        <%= token.code %>
-      </h5>
-      
-      <!-- ▼ 詳細画面と同じ lang-badge を使用し、タグ同士の隙間も整える ▼ -->
-      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-        <% if token.lang_html %><span class="lang-badge">HTML</span><% end %>
-        <% if token.lang_css %><span class="lang-badge">CSS</span><% end %>
-        <% if token.lang_javascript %><span class="lang-badge">JavaScript</span><% end %>
-        <% if token.lang_ruby %><span class="lang-badge">Ruby</span><% end %>
-        <% if token.lang_rails %><span class="lang-badge">Rails</span><% end %>
-        <% if token.lang_other %><span class="lang-badge">その他</span><% end %>
+      <% @tokens.each do |token| %>
+        <div class="result-card">
+          
+          <!-- ▼ 修正：スマホでは縦並び(flex-column)、PCでは横並び(flex-md-row)に切り替える設定を追加 -->
+          <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center flex-grow-1" style="gap: 8px; min-width: 0;">
+              
+              <!-- タイトル -->
+              <h5 style="margin: 0; font-weight: bold; word-break: break-all;">
+                <%= token.code %>
+              </h5>
+              
+              <!-- タグ群 -->
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <% if token.lang_html %><span class="lang-badge">HTML</span><% end %>
+                <% if token.lang_css %><span class="lang-badge">CSS</span><% end %>
+                <% if token.lang_javascript %><span class="lang-badge">JavaScript</span><% end %>
+                <% if token.lang_ruby %><span class="lang-badge">Ruby</span><% end %>
+                <% if token.lang_rails %><span class="lang-badge">Rails</span><% end %>
+                <% if token.lang_other %><span class="lang-badge">その他</span><% end %>
+              </div>
+          </div>
+
+          <!-- リンクにクラス（class）を適用してボタン化 -->
+          <div style="display: flex; flex-shrink: 0;">
+            <%= link_to "詳細", token_path(token), class: "btn-detail" %>
+            <%= link_to "削除", token_path(token), 
+                data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, 
+                class: "btn-delete" %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="mt-4 d-flex justify-content-center">
+        <%= paginate @tokens %>
       </div>
-    </div>
 
-    <!-- ▼ リンクにクラス（class）を適用してボタン化 ▼ -->
-    <div style="display: flex; flex-shrink: 0;">
-      <%= link_to "詳細", token_path(token), class: "btn-detail" %>
-      <%= link_to "削除", token_path(token), 
-          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, 
-          class: "btn-delete" %>
     </div>
   </div>
-<% end %>
-
-<div class="mt-4 d-flex justify-content-center">
-  <%= paginate @tokens %>
 </div>

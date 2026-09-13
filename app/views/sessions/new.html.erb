@@ -21,6 +21,27 @@
     margin-top: 40px;
     padding-left: 180px;
   }
+
+  @media (max-width: 768px) {
+    .form-group {
+      flex-direction: column; /* 横並びから縦並びに変更 */
+      align-items: flex-start; /* 左寄せにする */
+    }
+    .form-group label {
+      width: 100%; /* 固定幅を解除 */
+      text-align: left; /* 左寄せに変更 */
+      margin-right: 0;
+      margin-bottom: 8px; /* 入力欄との間に余白を少し */
+    }
+    .form-group input {
+      width: 100%; /* 入力欄を画面幅いっぱいに広げる */
+    }
+    .submit-group {
+      padding-left: 0; /* PC用の180pxの余白を消す */
+      text-align: center; /* ボタンを中央に配置 */
+    }
+  }
+  
 </style>
 
     <%= form_with url: tokens_path, local: true do |form| %>
@@ -39,7 +60,7 @@
         </div>
     <% end %>
 
-    <div style="margin-top: 20px; padding-left: 180px;">
+    <div style="margin-top: 20px; text-align: center; white-space: nowrap;">
         アカウントをお持ちでない場合は
         <%= link_to "新規登録はこちら", new_user_path %>
     </div>
