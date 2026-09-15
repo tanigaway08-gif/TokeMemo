@@ -8,13 +8,13 @@
   <%= link_to 'TokeMemo 🐾', root_path, class: 'navbar-brand fw-bold fs-2' %>
 
     <!-- 右側：ログイン・ログアウトボタン -->
-    <div class="d-flex align-items-center">
+    <div class="d-flex w-100 flex-column">
     <% if user_signed_in? %>
         <!-- ▼ ログイン中の表示 ▼ -->
         <span class="me-3 fw-bold text-secondary small">
         こんにちは、<%= current_user.name %>さん
         </span>
-        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-danger" %>
+        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-danger align-self-end" %>
     <% else %>
         <!-- ▼ 未ログイン時の表示（必要に応じて） ▼ -->
         <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary me-2" %>
