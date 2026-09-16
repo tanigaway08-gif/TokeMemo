@@ -1,9 +1,4 @@
-<div class="container mt-4 px-3">
-  <div class="row">
-    <!-- PCでは半分の幅(col-md-6)にして中央寄せ(mx-auto)、スマホでは全幅(col-12) -->
-    <div class="col-12 col-md-6 mx-auto">
-      
-      <h1 class="h3 mb-4">ユーザー登録</h1>
+<h1 class="h3 mb-4">ユーザー登録</h1>
 <style>
   /* --- フォーム全体のレイアウト --- */
   form {
@@ -95,6 +90,8 @@
   </div>
 <% end %>
 
+
+
 <%= form_with model: @user do |form| %>
 
   <div class="form-group">
@@ -125,8 +122,4 @@
 <div style="display: block; width: 100%; text-align: left; margin-top: 20px; white-space: nowrap; padding-left: 20px; box-sizing: border-box;">
   すでにアカウントをお持ちの方は<br>
   <%= link_to "ログインはこちら", new_user_session_path, style: "margin-top: 5px; white-space: nowrap;" %>
-</div>
-
-    </div>
-  </div>
 </div>
