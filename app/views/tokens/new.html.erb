@@ -1,4 +1,12 @@
-<h1>トークン新規登録</h1>
+<% content_for :hide_hamburger, true %>
+
+<div class="container-fluid mt-4 px-3">
+  <!-- 不要な余白を防ぐため m-0 を追加 -->
+  <div class="row m-0">
+    <!-- col-md-6 を削除し、col-12 だけで全幅を使う -->
+    <div class="col-12 p-0">
+    
+    <h1>トークン新規登録</h1>
 
 <!-- _form.html.erb を読み込み、@token のデータを渡す -->
 <%= render 'form', token: @token %>

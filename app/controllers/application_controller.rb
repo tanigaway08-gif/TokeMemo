@@ -21,6 +21,6 @@ class ApplicationController < ActionController::Base
 
   # Deviseのログアウト後のリダイレクト先を指定するメソッド
   def after_sign_out_path_for(resource_or_scope)
-    new_user_session_path # ログイン画面へ遷移
+    root_path # home画面へ遷移
   end
 end
