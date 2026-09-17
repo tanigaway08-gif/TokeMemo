@@ -159,64 +159,128 @@
   height: auto;
   }
 
+/* ========================
+   PC版（768px以上）の設定
+======================== */
+.hamburger-btn {
+  display: none; /* PCではハンバーガーボタンを非表示 */
+}
+
+/* ========================
+   スマホ版（768px未満）の設定
+======================== */
+@media (max-width: 767.98px) {
+  /* ハンバーガーボタンを画面右下（またはお好みの位置）に固定表示 */
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 45px;
+    height: 45px;
+    background-color: #007bff; /* ボタンの背景色（青） */
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    position: fixed;
+    bottom: 580px; /* 画面下から20px */
+    right: 20px;  /* 画面右から20px */
+    z-index: 1050; /* サイドバーより上に表示 */
+    padding: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  /* ハンバーガーボタンの3本線 */
+  .hamburger-line {
+    width: 100%;
+    height: 2px;
+    background-color: #fff; /* 線の色（白） */
+    transition: all 0.3s ease;
+  }
+
+  /* サイドバーを画面外にスライドイン用のメニューに変更 */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%; /* 初期状態は画面外（左側）に隠す */
+    width: 280px;
+    max-width: 80%; /* 画面幅の80%まで */
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    transition: left 0.3s ease; /* スライドアニメーション */
+    z-index: 1040;
+    padding: 20px;
+    overflow-y: auto; /* 中身が長い場合はスクロール可能に */
+  }
+
+  /* JavaScriptでこのクラスが付与されたら画面内に表示される */
+  .sidebar.is-open {
+    left: 0;
+  }
+}
+
 
     </style>
 
 </head>
 
-  <body>
-    <%= render 'layouts/header' %>
+ <body>
+  <%= render 'layouts/header' %>
 
-    <% if notice %>
-      <div class="alert alert-success text-centermb-0"><%= notice %></div>
-    <% end %>
-    <% if alert %>
-      <div class="alert alert-danger text-center mb-0"><%= alert %></div>
-    <% end %>
+  <% if notice %>
+    <div class="alert alert-success text-center mb-0"><%= notice %></div>
+  <% end %>
+  <% if alert %>
+    <div class="alert alert-danger text-center mb-0"><%= alert %></div>
+  <% end %>
 
-      <div class="dashboard-container">
-        <!-- ▼ 左側：全ページ共通のサイドバー（検索エリア） ▼ -->
-        <div class="sidebar d-none d-md-block col-md-3">
-        
-        <!-- 現在の画面が tokens コントローラーの場合のみ、中身を表示する -->
-        <% if controller_name == 'tokens' %>
-          <h3>検索</h3>
-          <%= form_with url: tokens_path, method: :get, local: true do |form| %>
-            <div class="search-group">
-              <%= form.label :keyword, "キーワード" %><br>
-              <%= form.text_field :keyword, value: params[:keyword], style: "width: 100%;" %>
-            </div>
+  <!-- hide_hamburger が設定されていない場合のみ表示する -->
+  <% unless content_for?(:hide_hamburger) %>
+    <button id="hamburger-btn" class="hamburger-btn">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  <% end %>
+
+  <div class="dashboard-container">
+    <!-- ▼ 修正：id="sidebar" を追加し、d-none d-md-block を削除 ▼ -->
+    <div id="sidebar" class="sidebar col-md-3">
+    
+      <% if controller_name == 'tokens' %>
+        <h3>検索</h3>
+        <%= form_with url: tokens_path, method: :get, local: true do |form| %>
+          <!-- 中身はそのまま -->
+          <div class="search-group">
+            <%= form.label :keyword, "キーワード" %><br>
+            <%= form.text_field :keyword, value: params[:keyword], style: "width: 100%;" %>
+          </div>
 
           <div class="search-group">
-          <label>言語・フレームワーク</label><br>
-
-          <!-- ▼ チェックボックスの集まりを、左揃えのまま全体を中央に寄せる ▼ -->
-          <div style="display: inline-block; text-align: left;">
-            <%= form.check_box :lang_html, checked: params[:lang_html] == "1" %> HTML<br>
-            <%= form.check_box :lang_css, checked: params[:lang_css] == "1" %> CSS<br>
-            <%= form.check_box :lang_javascript, checked: params[:lang_javascript] == "1" %> JavaScript<br>
-            <%= form.check_box :lang_ruby, checked: params[:lang_ruby] == "1" %> Ruby<br>
-            <%= form.check_box :lang_rails, checked: params[:lang_rails] == "1" %> Rails<br>
-            <%= form.check_box :lang_other, checked: params[:lang_other] == "1" %> その他
-          </div>
+            <label>言語・フレームワーク</label><br>
+            <div style="display: inline-block; text-align: left;">
+              <%= form.check_box :lang_html, checked: params[:lang_html] == "1" %> HTML<br>
+              <%= form.check_box :lang_css, checked: params[:lang_css] == "1" %> CSS<br>
+              <%= form.check_box :lang_javascript, checked: params[:lang_javascript] == "1" %> JavaScript<br>
+              <%= form.check_box :lang_ruby, checked: params[:lang_ruby] == "1" %> Ruby<br>
+              <%= form.check_box :lang_rails, checked: params[:lang_rails] == "1" %> Rails<br>
+              <%= form.check_box :lang_other, checked: params[:lang_other] == "1" %> その他
+            </div>
           </div>
 
-            <%= form.submit "検索する", style: "width: 100%; cursor: pointer;" %>
-          <% end %>
-
-          <div style="margin-top: 30px; width: 100%;">
-            <%= link_to "新規登録", new_token_path, style: "display: block; margin: 0 ; max-width: 200px; text-align: center; padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; box-sizing: border-box;" %>
-          </div>
+          <%= form.submit "検索する", style: "width: 100%; cursor: pointer;" %>
         <% end %>
 
-      </div>
-        <!-- ▲ サイドバーここまで ▲ -->
-
-        <!-- これレスポンシブデザインでめっちゃ重要　col-12 com-md-9を指定しないとスマホに広がらなかった ▼ -->
-        <div class="main-content col-12 col-md-9 pe-0">
-          <%= yield %>
+        <div style="margin-top: 30px; width: 100%;">
+          <%= link_to "新規登録", new_token_path, style: "display: block; margin: 0 ; max-width: 200px; text-align: center; padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; box-sizing: border-box;" %>
         </div>
-      </div>
-    </body>
+      <% end %>
 
-</html>
+    </div>
+    <!-- ▲ サイドバーここまで ▲ -->
+
+    <div class="main-content col-12 col-md-9 pe-0">
+      <%= yield %>
+    </div>
+  </div>
+</body>
