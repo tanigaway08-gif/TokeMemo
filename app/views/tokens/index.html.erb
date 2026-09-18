@@ -72,6 +72,15 @@
     font-size: 0.75rem;      /* 文字サイズを小さく */
     border-radius: 4px;      /* 角を少し丸くする（お好みで） */
   } %>
+@media (max-width: 767.98px) {
+  /* ... (通常時の .search-menu-btn の設定はそのまま) ... */
+
+  /* ▼ 修正：フラッシュメッセージ(.alert)がある時は、強制的に下げる ▼ */
+  .alert ~ .search-menu-btn {
+    top: 220px !important; /* !important をつけて他の設定より優先させます */
+    bottom: auto !important; /* 念のため下からの固定も解除 */
+  }
+}
 
 </style>
 

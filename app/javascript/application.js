@@ -4,16 +4,15 @@ import "./controllers"
 import * as bootstrap from "bootstrap"
 
 document.addEventListener("turbo:load", () => {
-  const hamburgerBtn = document.getElementById("hamburger-btn");
+  // ▼ IDを "search-menu-btn" に変更
+  const searchBtn = document.getElementById("search-menu-btn");
   const sidebar = document.getElementById("sidebar");
 
-  if (hamburgerBtn && sidebar) {
-    // 重複してイベントが登録されるのを防ぐ（Turbo環境での対策）
-    const newBtn = hamburgerBtn.cloneNode(true);
-    hamburgerBtn.parentNode.replaceChild(newBtn, hamburgerBtn);
+  if (searchBtn && sidebar) {
+    const newBtn = searchBtn.cloneNode(true);
+    searchBtn.parentNode.replaceChild(newBtn, searchBtn);
 
     newBtn.addEventListener("click", () => {
-      // is-open クラスを付け外し（トグル）する
       sidebar.classList.toggle("is-open");
     });
   }
