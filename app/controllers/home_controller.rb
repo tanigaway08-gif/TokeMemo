@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
+  # もしログイン状態であれば、このメソッドが実行された時にtokens_path（トークン一覧画面）へ遷移する
   def top
-  # ▼ 追加：ログイン済みの場合はトークン一覧画面にリダイレクトする ▼
     if user_signed_in?
       redirect_to tokens_path
     end
