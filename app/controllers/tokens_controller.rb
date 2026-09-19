@@ -89,7 +89,7 @@ class TokensController < ApplicationController
 
   private
 
-  　# ストパロ、トークンモデルのうち記述したものだけをデータ登録できるようにする
+    # ストパロ、tokenモデルのうち記述したものだけをデータ登録できるようにする
     def token_params
       params.require(:token).permit(
         :code, :translation, :example, :memo,
