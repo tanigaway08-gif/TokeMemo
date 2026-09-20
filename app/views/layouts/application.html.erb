@@ -42,13 +42,7 @@
     <style>
       body {
         margin: 0;
-        overflow-x: hidden;
-      }
-      
-      .dashboard-container {
-        display: flex;
-        min-height: 100vh;
-        width: 100%;
+        overflow-x: hidden; /* 横スクロール防止 */
       }
 
       /* ▼ フォーム用の設定 ▼ */
@@ -85,17 +79,34 @@
         cursor: pointer;
       }
 
-      /* ▼ サイドバーとメインコンテンツ ▼ */
+      /* PC向けの基本スタイル */
+      .form-container {
+        width: 600px;
+        margin: 0 auto;
+      }
+
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* ========================
+         ▼ サイドバーとメインコンテンツ (PC・iPad用) ▼
+         ※Bootstrapの横幅(col-md-3)に任せるため、width:250pxを削除しました
+      ======================== */
       .sidebar {
-        width: 250px;
-        padding: 80px 40px 40px 20px;
+        padding: 80px 20px 40px 20px;
         background-color: #f8f9fa;
         border-right: 1px solid #ddd;
-        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
-        flex-shrink: 0;
+        min-height: 100vh;
       }
 
       .sidebar h3 {
@@ -122,53 +133,23 @@
       }
 
       .main-content {
-        width: calc(100% - 250px);
         padding: 30px 15px 30px 30px;
         box-sizing: border-box;
       }
 
-      /* PC向けの基本スタイル */
-      .form-container {
-        width: 600px;
-        margin: 0 auto;
-      }
-
-      .card-container {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      img {
-        max-width: 100%;
-        height: auto;
-      }
-
       /* ========================
-         PC版（デフォルト）の設定
+         スマホ版（画面幅767.98px以下 = Pixel等）の設定
       ======================== */
-      .search-menu-btn {
-        display: none; /* PCでは非表示 */
-      }
-
-      /* ========================
-         スマホ向け（画面幅768px以下）の設定
-      ======================== */
-      @media (max-width: 768px) {
+      @media (max-width: 767.98px) {
         .form-container {
           width: 100%;
           padding: 30px;
         }
         
         .main-content {
-          width: 100%;
-          padding: 15px;
+          padding: 15px; /* スマホ時は余白を小さく */
         }
-      }
 
-      /* ========================
-         スマホ版（767.98px以下）の設定
-      ======================== */
-      @media (max-width: 767.98px) {
         /* 「検索」テキストボタンのデザイン */
         .search-menu-btn {
           display: flex;
@@ -182,7 +163,7 @@
           border-radius: 30px;
           cursor: pointer;
           position: fixed;
-          bottom: 600px;
+          bottom: 20px; /* ※画面下からの位置を修正しました */
           right: 20px;
           z-index: 1050;
           padding: 10px 24px;
@@ -199,7 +180,7 @@
           position: fixed;
           top: 0;
           left: -100%; /* 初期状態は画面外 */
-          width: 280px;
+          width: 280px !important; /* Bootstrapを上書きして幅を確保 */
           max-width: 80%;
           height: 100vh;
           background-color: #fff;
@@ -215,6 +196,15 @@
           left: 0;
         }
       }
+
+      /* ========================
+         PC・iPad版（768px以上）の設定
+      ======================== */
+      @media (min-width: 768px) {
+        .search-menu-btn {
+          display: none !important; /* PC・iPadでは検索ボタン非表示 */
+        }
+      }
     </style>
   </head>
 
@@ -228,39 +218,46 @@
       <div class="alert alert-danger text-center mb-0"><%= alert %></div>
     <% end %>
 
-    <div class="dashboard-container">
-      <div id="sidebar" class="sidebar col-md-3">
-        <% if controller_name == 'tokens' %>
-          <h3>検索</h3>
-          <%= form_with url: tokens_path, method: :get, local: true do |form| %>
-            <div class="search-group">
-              <%= form.label :keyword, "キーワード" %><br>
-              <%= form.text_field :keyword, value: params[:keyword], style: "width: 100%;" %>
-            </div>
-
-            <div class="search-group">
-              <label>言語・フレームワーク</label><br>
-              <div style="display: inline-block; text-align: left;">
-                <%= form.check_box :lang_html, checked: params[:lang_html] == "1" %> HTML<br>
-                <%= form.check_box :lang_css, checked: params[:lang_css] == "1" %> CSS<br>
-                <%= form.check_box :lang_javascript, checked: params[:lang_javascript] == "1" %> JavaScript<br>
-                <%= form.check_box :lang_ruby, checked: params[:lang_ruby] == "1" %> Ruby<br>
-                <%= form.check_box :lang_rails, checked: params[:lang_rails] == "1" %> Rails<br>
-                <%= form.check_box :lang_other, checked: params[:lang_other] == "1" %> その他
+    <!-- ▼ Bootstrapの container-fluid と row を使った無敵のレイアウト ▼ -->
+    <div class="container-fluid p-0">
+      <div class="row g-0">
+        
+        <!-- 左側：サイドバー (iPad/PCでは画面幅の3/12を使用、スマホでは固定配置) -->
+        <div id="sidebar" class="sidebar col-md-3 col-lg-2">
+          <% if controller_name == 'tokens' %>
+            <h3>検索</h3>
+            <%= form_with url: tokens_path, method: :get, local: true do |form| %>
+              <div class="search-group">
+                <%= form.label :keyword, "キーワード" %><br>
+                <%= form.text_field :keyword, value: params[:keyword], style: "width: 100%;" %>
               </div>
+
+              <div class="search-group">
+                <label>言語・フレームワーク</label><br>
+                <div style="display: inline-block; text-align: left;">
+                  <%= form.check_box :lang_html, checked: params[:lang_html] == "1" %> HTML<br>
+                  <%= form.check_box :lang_css, checked: params[:lang_css] == "1" %> CSS<br>
+                  <%= form.check_box :lang_javascript, checked: params[:lang_javascript] == "1" %> JavaScript<br>
+                  <%= form.check_box :lang_ruby, checked: params[:lang_ruby] == "1" %> Ruby<br>
+                  <%= form.check_box :lang_rails, checked: params[:lang_rails] == "1" %> Rails<br>
+                  <%= form.check_box :lang_other, checked: params[:lang_other] == "1" %> その他
+                </div>
+              </div>
+
+              <%= form.submit "検索する", style: "width: 100%; cursor: pointer;" %>
+            <% end %>
+
+            <div style="margin-top: 30px; width: 100%;">
+              <%= link_to "新規登録", new_token_path, style: "display: block; margin: 0 ; max-width: 200px; text-align: center; padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; box-sizing: border-box;" %>
             </div>
-
-            <%= form.submit "検索する", style: "width: 100%; cursor: pointer;" %>
           <% end %>
+        </div>
 
-          <div style="margin-top: 30px; width: 100%;">
-            <%= link_to "新規登録", new_token_path, style: "display: block; margin: 0 ; max-width: 200px; text-align: center; padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; box-sizing: border-box;" %>
-          </div>
-        <% end %>
-      </div>
+        <!-- 右側：メインコンテンツ (iPad/PCでは残りの9/12を使用、スマホでは画面幅の100%を使用) -->
+        <div class="main-content col-12 col-md-9 col-lg-10">
+          <%= yield %>
+        </div>
 
-      <div class="main-content col-12 col-md-9 pe-0">
-        <%= yield %>
       </div>
     </div>
   </body>

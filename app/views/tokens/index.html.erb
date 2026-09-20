@@ -52,10 +52,10 @@
     white-space: nowrap;       /* 追加：タグ自体が途中で変に改行されないように保護します */
   }
 
-  /* パソコン画面（768px以上）の時だけタイトル幅を固定する */
-  @media (min-width: 768px) {
+/* パソコン画面（992px以上）の時だけタイトル幅を固定する */
+  @media (min-width: 992px) {
     .token-title {
-      width: 300px; /* 一番長い文字が収まるように調整してください（例: 250px） */
+      width: 300px;
       flex-shrink: 0;
     }
   }
@@ -128,8 +128,7 @@
         <div class="result-card">
           
           <!-- ▼ 修正：スマホでは縦並び(flex-column)、PCでは横並び(flex-md-row)に切り替える設定を追加 -->
-          <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center flex-grow-1" style="gap: 8px; min-width: 0;">
-              
+          <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center flex-grow-1" style="gap: 8px; min-width: 0;">
               <!-- タイトル -->
               <h5 class="token-title" style="margin: 0; font-weight: bold; word-break: break-all;">
                 <%= token.code %>
