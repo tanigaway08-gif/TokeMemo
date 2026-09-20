@@ -1,8 +1,7 @@
 class Token < ApplicationRecord
-
     # tokenモデルはuserモデルに所属する
     belongs_to :user
-    
+
     # バリデーションを設定、コード名は入力必須にする
     validates :code, presence: true
 
@@ -19,5 +18,4 @@ class Token < ApplicationRecord
             errors.add(:base, "関連言語を少なくとも1つ選択してください")
         end
     end
-    
 end
