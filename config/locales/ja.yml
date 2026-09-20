@@ -13,17 +13,30 @@ ja:
       destroyed: "アカウントを削除しました。またのご利用をお待ちしております。"
     failure:
       already_authenticated: "すでにログインしています。"
+      not_found_in_database: "メールアドレスまたはパスワードが違います。"
+      invalid: "メールアドレスまたはパスワードが違います。"
+  
   activerecord:
+    # 属性名（カラム名）の日本語訳
+    attributes:
+      token:
+        code: "コード"
+      user:
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認用）"
+        name: "名前"
+        
+    # 特定のモデルに対するエラーメッセージ
     errors:
       models:
         user:
           attributes:
             email:
               taken: "はすでに使用されています。"
-              errors:
-    attributes:
-      token:
-        code: "コード"
+
+  # 共通のエラーメッセージ
   errors:
     messages:
       blank: "を入力してください"
+      too_short: "は%{count}文字以上で入力してください"
