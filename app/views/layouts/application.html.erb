@@ -220,12 +220,6 @@
       <div class="alert alert-danger text-center mb-0"><%= alert %></div>
     <% end %>
 
-    <% unless content_for?(:hide_hamburger) %>
-      <button id="search-menu-btn" class="search-menu-btn d-md-none <%= yield(:search_btn_class) %>">
-        検索
-      </button>
-    <% end %>
-
     <div class="dashboard-container">
       <div id="sidebar" class="sidebar col-md-3">
         <% if controller_name == 'tokens' %>

@@ -1,77 +1,106 @@
+
 <style>
   /* 詳細エリア専用のデザインだけ残す */
-    .header-area {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 2px solid #333;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-    }
-    .detail-section {
-        margin-bottom: 30px;
-        overflow-wrap: break-word;
-    }
-    .detail-section h3 {
-        color: #555;
-        font-size: 1.1em;
-        margin-bottom: 15px;
-        padding-left: 10px;          /* 文字の左に少しスペースを空ける */
-        border-left: 4px solid #ddd; /* 左側に控えめなグレーの縦線を引く */
-
-    }
-    .code-block {
-        padding: 15px;
-        border-radius: 5px;
-        overflow-x: auto;
-        font-family: monospace;
-        margin: 0;
-    }
-    .lang-badge {
-        display: inline-block;
-        background-color: #e9ecef;
-        color: #333;
-        padding: 5px 12px;
-        border-radius: 15px;
-        margin-right: 8px;
-        font-size: 0.9em;
-    }
-    .memo-box {
-        background-color: #e3f2fd; /* 薄い青 */
-        border-left: 5px solid #2196f3; /* 濃い青の線 */
-        padding: 15px;
-        border-radius: 4px;
-        color: #333;
-        line-height: 1.6;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .memo-box p {
-        margin: 0 0 10px 0;
-    }
-    .memo-box p:last-child {
-        margin: 0;
-    }
-
-    @media (max-width: 767px) {
   .token-show-wrapper {
-    padding-top: 40px; /* 検索ボタンに被らないように調整 */
+      padding-right: 15px; /* ★③ メインコンテンツ全体に右の余白を作ります */
   }
-}
-
-</style>
-
-
-<div class="container mt-4 pe-4">
-  <div class="row">
-    <!-- ▼ 修正：全角スペースを半角に直しました -->
-    <div class="col-12 col-md-6 ps-4">
-      
-      <div class="token-show-wrapper">
-
-<div class="header-area flex-column">
-  <h2 class="align-self-start" style="margin: 0; font-size: 2em; overflow-wrap: break-word; word-break: break-all;"><%= @token.code %></h2>
   
+  .header-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #333;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+  }
+  .detail-section {
+      margin-bottom: 30px;
+      overflow-wrap: break-word;
+  }
+  .detail-section h3 {
+      color: #555;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      padding-left: 10px;
+      border-left: 4px solid #ddd; 
+  }
+  .code-block {
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-family: monospace;
+      margin: 0;
+  }
+  .lang-badge {
+      display: inline-block;
+      background-color: #e9ecef;
+      color: #333;
+      padding: 5px 12px;
+      border-radius: 15px;
+      margin-right: 8px;
+      font-size: 0.9em;
+  }
+  .memo-box {
+      background-color: #e3f2fd; 
+      border-left: 5px solid #2196f3; 
+      padding: 15px;
+      border-radius: 4px;
+      color: #333;
+      line-height: 1.6;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .memo-box p {
+      margin: 0 0 10px 0;
+  }
+  .memo-box p:last-child {
+      margin: 0;
+  }
+
+  @media (max-width: 767px) {
+    .token-show-wrapper {
+      padding-top: 40px; 
+      padding-right: 20px; /* スマホ画面でも全体に右余白を確保 */
+    }
+  }
+
+  .search-menu-btn {
+    position: absolute; 
+    top: 150px;         
+    right: 15px;        /* ★① 40pxから15pxに減らして、画像をさらに右へ寄せました */
+    
+    background-color: transparent; 
+    border: none;                  
+    box-shadow: none;              
+    
+    width: 60px;        
+    height: 60px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .search-menu-btn.has-flash {
+    top: 210px; 
+  }
+</style>     
+
+<div class="pe-3">
+<div class="header-area flex-column">
+  <!-- トークン名の少し上に検索ボタンを配置（右寄せ） -->
+  <div class="align-self-end mb-2">
+    <button id="search-menu-btn" class="search-menu-btn d-md-none <%= 'has-flash' if flash.any? %>">
+      <%= image_tag '検索犬.png', style: "width: 100px; height: auto; object-fit: contain; position: relative; top: -15px;" %>
+    </button>
+  </div>
+
+  <!-- ★② h2タグに padding-right: 100px; を追加して、犬の下に文字が潜り込まない（被らない）ようにしました -->
+  <h2 class="align-self-start" style="margin: 0; font-size: 2em; overflow-wrap: break-word; word-break: break-all; padding-right: 100px;">
+    <%= @token.code %>
+  </h2>
+
   <div class="align-self-end mt-3">
     <%= link_to "編集", edit_token_path(@token), style: "padding: 8px 16px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px;" %>
     <%= link_to "一覧に戻る", tokens_path, style: "padding: 8px 16px; background-color: #ddd; color: #333; text-decoration: none; border-radius: 4px;" %>

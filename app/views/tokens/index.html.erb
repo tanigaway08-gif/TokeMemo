@@ -82,17 +82,47 @@
   }
 }
 
+.search-menu-btn {
+  position: absolute; 
+  top: 150px;         
+  right: 20px;        
+  
+  /* --- 追加：背景と枠線と影を消す --- */
+  background-color: transparent; /* 背景を透明にする */
+  border: none;                  /* 枠線を消す */
+  box-shadow: none;              /* 影を消す */
+  
+  /* --- 形を固定する指定 --- */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%; /* 背景が透明なので不要になりますが、残しておいても問題ありません */
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* フラッシュメッセージが出た時だけ適用されるスタイル（そのまま） */
+.search-menu-btn.has-flash {
+  top: 200px; 
+}
 </style>
 
-<!-- 修正後 -->
-<!-- container を container-fluid に変更し、画面いっぱいに広げる -->
+<!-- HTML部分はそのまま（完璧です！） -->
 <div class="container-fluid mt-4 px-3 pe-md-5">
-  <!-- 不要な余白を防ぐため m-0 を追加 -->
   <div class="row m-0">
-    <!-- col-md-6 を削除し、col-12 だけで全幅を使う -->
     <div class="col-12 p-0">
       
-      <h1 class="h3 mb-4">一覧画面</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">一覧画面</h1>
+
+  <% unless content_for?(:hide_hamburger) %>    
+<button id="search-menu-btn" class="search-menu-btn d-md-none <%= 'has-flash' if flash.any? %>">
+    <%= image_tag '検索犬.png', style: "width: 100px; height: 100px; object-fit: contain;" %>
+  </button>
+  <% end %>
+</div>
 
       <% @tokens.each do |token| %>
         <div class="result-card">
