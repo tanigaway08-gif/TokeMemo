@@ -1,51 +1,140 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- 1. メタデータ -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Myapp">
+
+    <!-- OGP (SNSシェア用) -->
     <meta property="og:title" content="TokeMemo" />
     <meta property="og:description" content="プログラミング学習を加速させるメモアプリです" />
-
-    <!-- image_urlヘルパーを使うことで、本番環境で自動的に https://... から始まる絶対URLが生成されます -->
     <meta property="og:image" content="<%= image_url('X用TokeMemo.jpg') %>" />
-
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- タイトル & Rails必須タグ -->
     <title><%= content_for(:title) || "Myapp" %></title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Myapp">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
+    <!-- アイコン -->
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <!-- 2. スタイルシート & スクリプト -->
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
-      // 画面が切り替わるたびに色付けを再実行する
       document.addEventListener("turbo:load", function() {
         hljs.highlightAll();
       });
     </script>
 
+    <!-- 3. カスタムスタイル -->
     <style>
+      /* ========================
+         ベーススタイル
+      ======================== */
       body {
         margin: 0;
-        overflow-x: hidden; /* 横スクロール防止 */
+      }
+      img {
+        max-width: 100%;
+        height: auto;
       }
 
-      /* ▼ フォーム用の設定 ▼ */
+      /* ========================
+         レイアウト (PC・iPad基本設定)
+      ======================== */
+      .sidebar {
+        padding: 80px 20px 40px 20px;
+        background-color: #f8f9fa;
+        border-right: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        /* サイドバー固定化（FlexboxのStretch解除を含む） */
+        <%# position: sticky; %>
+        position: fixed;
+        top: 60px;
+        height: 100vh;
+        overflow-y: auto;
+        align-self: flex-start;
+      }
+
+      .main-content {
+        padding: 30px 15px 30px 30px;
+        box-sizing: border-box;
+      }
+
+      /* ========================
+         サイドバー内の要素
+      ======================== */
+      .sidebar h3 {
+        text-align: left;
+        width: 100%;
+        margin-top: 0;
+      }
+      .sidebar form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .search-group {
+        margin-bottom: 40px;
+        width: 100%;
+        text-align: left;
+      }
+      .search-group input[type="text"],
+      .sidebar-submit {
+        width: 100%;
+        max-width: 200px;
+        box-sizing: border-box;
+      }
+      .sidebar-submit {
+        cursor: pointer;
+        margin-bottom: 30px;
+      }
+      .lang-checkboxes {
+        display: inline-block;
+        text-align: left;
+      }
+      .sidebar-btn-new {
+        display: block;
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .sidebar-btn-new:hover {
+        background-color: #0056b3;
+      }
+
+      /* ========================
+         汎用コンポーネント (フォーム等)
+      ======================== */
+      .form-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
       .form-group {
         display: flex;
         align-items: flex-start;
@@ -79,78 +168,34 @@
         cursor: pointer;
       }
 
-      /* PC向けの基本スタイル */
-      .form-container {
-        width: 600px;
-        margin: 0 auto;
-      }
-
-      .card-container {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      img {
-        max-width: 100%;
-        height: auto;
-      }
-
       /* ========================
-         ▼ サイドバーとメインコンテンツ (PC・iPad用) ▼
-         ※Bootstrapの横幅(col-md-3)に任せるため、width:250pxを削除しました
-      ======================== */
-      .sidebar {
-        padding: 80px 20px 40px 20px;
-        background-color: #f8f9fa;
-        border-right: 1px solid #ddd;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-      }
-
-      .sidebar h3 {
-        text-align: left;
-        width: 100%;
-        margin-top: 0;
-      }
-      .sidebar form {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .search-group {
-        margin-bottom: 40px;
-        width: 100%;
-        text-align: left;
-      }
-      .sidebar input[type="text"],
-      .sidebar input[type="submit"] {
-        width: 100%;
-        max-width: 200px;
-        box-sizing: border-box;
-      }
-
-      .main-content {
-        padding: 30px 15px 30px 30px;
-        box-sizing: border-box;
-      }
-
-      /* ========================
-         スマホ版（画面幅767.98px以下 = Pixel等）の設定
+         レスポンシブ (スマホ版: 767.98px以下)
       ======================== */
       @media (max-width: 767.98px) {
         .form-container {
-          width: 100%;
           padding: 30px;
         }
-        
         .main-content {
-          padding: 15px; /* スマホ時は余白を小さく */
+          padding: 15px;
         }
 
-        /* 「検索」テキストボタンのデザイン */
+        .sidebar {
+          position: fixed;
+          top: 0;
+          left: -100%;
+          width: 280px !important;
+          max-width: 80%;
+          height: 100vh;
+          background-color: #fff;
+          box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+          transition: left 0.3s ease;
+          z-index: 1040;
+          padding: 20px;
+        }
+        .sidebar.is-open {
+          left: 0;
+        }
+
         .search-menu-btn {
           display: flex;
           justify-content: center;
@@ -163,46 +208,24 @@
           border-radius: 30px;
           cursor: pointer;
           position: fixed;
-          bottom: 20px; /* ※画面下からの位置を修正しました */
+          bottom: 20px;
           right: 20px;
           z-index: 1050;
           padding: 10px 24px;
           box-shadow: 0 4px 6px rgba(0,0,0,0.2);
           transition: background-color 0.2s;
         }
-
         .search-menu-btn:active {
           background-color: #0056b3;
-        }
-
-        /* サイドバーを画面外にスライドイン用のメニューに変更 */
-        .sidebar {
-          position: fixed;
-          top: 0;
-          left: -100%; /* 初期状態は画面外 */
-          width: 280px !important; /* Bootstrapを上書きして幅を確保 */
-          max-width: 80%;
-          height: 100vh;
-          background-color: #fff;
-          box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-          transition: left 0.3s ease;
-          z-index: 1040;
-          padding: 20px;
-          overflow-y: auto;
-        }
-
-        /* スライドイン時 */
-        .sidebar.is-open {
-          left: 0;
         }
       }
 
       /* ========================
-         PC・iPad版（768px以上）の設定
+         レスポンシブ (PC・iPad版: 768px以上)
       ======================== */
       @media (min-width: 768px) {
         .search-menu-btn {
-          display: none !important; /* PC・iPadでは検索ボタン非表示 */
+          display: none !important;
         }
       }
     </style>
@@ -218,23 +241,22 @@
       <div class="alert alert-danger text-center mb-0"><%= alert %></div>
     <% end %>
 
-    <!-- ▼ Bootstrapの container-fluid と row を使った無敵のレイアウト ▼ -->
     <div class="container-fluid p-0">
       <div class="row g-0">
         
-        <!-- 左側：サイドバー (iPad/PCでは画面幅の3/12を使用、スマホでは固定配置) -->
+        <!-- 左側：サイドバー -->
         <div id="sidebar" class="sidebar col-md-3 col-lg-2">
           <% if controller_name == 'tokens' %>
             <h3>検索</h3>
             <%= form_with url: tokens_path, method: :get, local: true do |form| %>
               <div class="search-group">
                 <%= form.label :keyword, "キーワード" %><br>
-                <%= form.text_field :keyword, value: params[:keyword], style: "width: 100%;" %>
+                <%= form.text_field :keyword, value: params[:keyword] %>
               </div>
 
               <div class="search-group">
                 <label>言語・フレームワーク</label><br>
-                <div style="display: inline-block; text-align: left;">
+                <div class="lang-checkboxes">
                   <%= form.check_box :lang_html, checked: params[:lang_html] == "1" %> HTML<br>
                   <%= form.check_box :lang_css, checked: params[:lang_css] == "1" %> CSS<br>
                   <%= form.check_box :lang_javascript, checked: params[:lang_javascript] == "1" %> JavaScript<br>
@@ -244,17 +266,17 @@
                 </div>
               </div>
 
-              <%= form.submit "検索する", style: "width: 100%; cursor: pointer;" %>
+              <%= form.submit "検索する", class: "sidebar-submit" %>
             <% end %>
 
-            <div style="margin-top: 30px; width: 100%;">
-              <%= link_to "新規登録", new_token_path, style: "display: block; margin: 0 ; max-width: 200px; text-align: center; padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; box-sizing: border-box;" %>
+            <div style="width: 100%;">
+              <%= link_to "新規登録", new_token_path, class: "sidebar-btn-new" %>
             </div>
           <% end %>
         </div>
 
-        <!-- 右側：メインコンテンツ (iPad/PCでは残りの9/12を使用、スマホでは画面幅の100%を使用) -->
-        <div class="main-content col-12 col-md-9 col-lg-10">
+        <!-- 右側：メインコンテンツ -->
+        <div class="main-content col-12 col-md-9 offset-md-3 col-lg-10 offset-lg-2">
           <%= yield %>
         </div>
 
