@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
-
     # データベースに保存される前の新しいUserモデルのインスタンスを作成して、インスタン変数に代入
     def new
         @user = User.new
     end
-    
+
     # フォームに入力されたデータをインスタンス変数に代入
     # もし登録が成功したなら、ログイン画面に遷移してフラッシュメッセージを出す
     # 失敗したなら、新規登録画面のままにする
@@ -16,7 +15,7 @@ class UsersController < ApplicationController
         render :new, status: :unprocessable_entity
         end
     end
-    
+
     # ユーザーIDで検索してインスタンス変数に代入する（閲覧用）
     def show
         @user = User.find(params[:id])
@@ -50,9 +49,9 @@ class UsersController < ApplicationController
         @user.destroy
         redirect_to root_path, notice: "ユーザーが正常に削除されました。", status: :see_other
     end
-    
+
     private
-    
+
     # ストパロ、userモデルのうち記述したものだけをデータ登録できるようにする
     def user_params
         params.require(:user).permit(:name, :email, :password, :password_confirmation)
