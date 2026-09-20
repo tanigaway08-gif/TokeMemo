@@ -6,7 +6,7 @@ class TokensController < ApplicationController
 
   # ログインしているユーザーのトークン情報を呼び出して降順に並び替えてインスタンス変数@tokensに代入する
   def index
-    @tokens = current_user.tokens.order(created_at: :desc)
+    @tokens = current_user.tokens.order(:code)
 
     # 1. キーワード検索（AND条件のままでOK）
     # 検索ボックスに何か入力されているかを確認

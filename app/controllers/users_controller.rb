@@ -22,11 +22,13 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
     end
 
+    # 【今後実装予定】
     # ユーザーIDで検索してインスタンス変数に代入する（編集用）
     def edit
         @user = User.find(params[:id])
     end
 
+    # 【今後実装予定】
     # ユーザーIDで検索してインスタンス変数に代入する（更新用）
     # もし更新に成功したなら、そのユーザーの詳細画面（まだ未実装）に遷移してフラッシュメッセージを出す
     # 失敗したなら、編集画面のままにする
@@ -39,6 +41,7 @@ class UsersController < ApplicationController
         end
     end
 
+    # 【今後実装予定】
     # ユーザーIDで検索してインスタンス変数に代入する（削除用）
     # ユーザーデータを削除後はホーム画面に遷移して、フラッシュメッセージを出す
     # 削除した後は強制的にGETメソッドを使う（see_otherによって、遷移エラーすることなく安全に遷移できる）
