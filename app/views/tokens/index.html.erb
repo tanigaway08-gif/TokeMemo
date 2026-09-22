@@ -125,9 +125,9 @@
 </div>
 
       <% @tokens.each do |token| %>
-        <div class="result-card">
+        <!-- ▼ 修正： <div> の代わりに link_to を使ってカード全体をリンク化 -->
+        <%= link_to token_path(token), class: "result-card", style: "display: block; text-decoration: none; color: inherit;" do %>
           
-          <!-- ▼ 修正：スマホでは縦並び(flex-column)、PCでは横並び(flex-md-row)に切り替える設定を追加 -->
           <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center flex-grow-1" style="gap: 8px; min-width: 0;">
               <!-- タイトル -->
               <h5 class="token-title" style="margin: 0; font-weight: bold; word-break: break-all;">
@@ -145,16 +145,8 @@
               </div>
           </div>
 
-          <!-- リンクにクラス（class）を適用してボタン化 -->
-          <div style="display: flex; flex-shrink: 0;">
-            <%= link_to "詳細", token_path(token), class: "btn-detail" %>
-            <%= link_to "削除", token_path(token), 
-                data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, 
-                class: "btn-delete" %>
-          </div>
-        </div>
+        <% end %>
       <% end %>
-
       <div class="mt-4 d-flex justify-content-center">
         <%= paginate @tokens, window: 0 %>
       </div>

@@ -104,6 +104,7 @@
 
   <div class="align-self-end mt-3">
     <%= link_to "編集", edit_token_path(@token), style: "padding: 8px 16px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px;" %>
+    <%= link_to "削除", token_path(@token), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" }, style: "padding: 8px 16px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px;" %>
     <%= link_to "一覧に戻る", tokens_path, style: "padding: 8px 16px; background-color: #ddd; color: #333; text-decoration: none; border-radius: 4px;" %>
   </div>
 </div>
