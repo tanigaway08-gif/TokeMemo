@@ -1,19 +1,21 @@
 <% content_for :hide_hamburger, true %>
+<% content_for :title, "ログイン" %>
+
 <h1 class="h3 mb-4">ログイン</h1>
 
 <style>
-/* --- 基本スタイル（PC向け：横並び） --- */
+  /* --- 基本スタイル（PC向け：横並び） --- */
   .form-group {
     display: flex;
-    align-items: center; /* 縦の中央で揃える */
+    align-items: center;
     margin-bottom: 10px;
     width: 100%;
   }
 
   .form-group label {
-    width: 140px; /* PCでのラベルの幅 */
+    width: 140px;
     font-weight: bold;
-    text-align: right; /* PCでは右寄せにして入力欄に近づける */
+    text-align: right;
     margin-right: 20px;
   }
 
@@ -25,32 +27,7 @@
     border-radius: 4px;
   }
 
-  /* --- スマホ向けスタイル（画面幅768px以下の場合のみ適用） --- */
-  @media (max-width: 768px) {
-    .form-group {
-      flex-direction: column; /* ★ここで縦並びに変更 */
-      align-items: flex-start; /* 左寄せにする */
-      padding-left: 20px; /* 下のボタン類と左の余白を揃える */
-      margin-bottom: 10px;
-    }
-    
-    .form-group label {
-      width: 100%;
-      text-align: left; /* スマホでは左寄せ */
-      margin-right: 0;
-      margin-bottom: 8px; /* 入力欄との間に隙間を作る */
-    }
-    
-    .form-group input {
-      width: 300px; /* 下のボタン（200px）と幅を揃える */
-    }
-  }
-  .submit-group {
-    margin-top: 40px;
-    padding-left: 180px;
-  }
-
-/* ボタンを囲む枠の余白調整 */
+  /* --- ボタンエリア --- */
   .submit-group,
   .guest-login-group,
   form.button_to {
@@ -60,11 +37,10 @@
     text-align: left;
   }
 
-  /* 2つのボタンの幅とデザインを完全に揃え、絶対に中央に配置する */
   .action-btn {
-    display: block;     /* ★インライン要素からブロック要素に変更 */
+    display: block;
     margin-left: 20px; 
-    width: 200px;       /* ボタンの幅を統一 */
+    width: 200px;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
@@ -75,30 +51,62 @@
     cursor: pointer;
     white-space: nowrap;
   }
+
+  /* --- 新規登録リンクエリア --- */
+  .signup-prompt {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-top: 20px;
+    white-space: nowrap;
+    padding-left: 20px;
+    box-sizing: border-box;
+  }
+
+  /* --- スマホ向けスタイル（画面幅768px以下の場合のみ適用） --- */
+  @media (max-width: 768px) {
+    .form-group {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .form-group label {
+      width: 100%;
+      text-align: left;
+      margin-right: 0;
+      margin-bottom: 8px;
+    }
+    
+    .form-group input {
+      width: 300px;
+    }
+  }
 </style>
-    <% content_for :title, "ログイン" %>
-    <%= form_with model: @user, url: user_session_path do |form| %>
-        <div class="form-group">
-            <%= form.label :email, "メールアドレス" %>
-            <%= form.email_field :email , autofocus: true, autocomplete: "email" %>
-        </div>
 
-        <div class="form-group">
-            <%= form.label :password, "パスワード" %>
-            <%= form.password_field :password, autocomplete: "new-password" %>
-        </div>
+<%= form_with model: @user, url: user_session_path do |form| %>
+  <div class="form-group">
+    <%= form.label :email, "メールアドレス" %>
+    <%= form.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
 
-        <div class="submit-group">
-            <%= form.submit "ログインする", class: "action-btn"%>
-        </div>
-    <% end %>
+  <div class="form-group">
+    <%= form.label :password, "パスワード" %>
+    <%= form.password_field :password, autocomplete: "current-password" %>
+  </div>
 
-   <div style="display: block; width: 100%; text-align: left; margin-top: 20px; white-space: nowrap; padding-left: 20px; box-sizing: border-box;">
-        アカウントをお持ちでない場合<p>
-        <%= link_to "新規登録はこちら", new_user_registration_path %>
-    </div>
+  <div class="submit-group">
+    <%= form.submit "ログインする", class: "action-btn" %>
+  </div>
+<% end %>
 
-        <div class="submit-group">
-      <%# ログインしていない時に表示するエリアに追加 %>
-      <%= button_to "ゲストログイン", users_guest_sign_in_path, class: "action-btn" %>
-        </div>
+<div class="signup-prompt">
+  アカウントをお持ちでない場合<br>
+  <%= link_to "新規登録はこちら", new_user_registration_path %>
+</div>
+
+<div class="submit-group">
+  <%# ログインしていない時に表示するエリアに追加 %>
+  <%= button_to "ゲストログイン", users_guest_sign_in_path, class: "action-btn" %>
+</div>
