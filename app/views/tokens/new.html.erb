@@ -1,11 +1,11 @@
 <% content_for :hide_hamburger, true %>
 <% content_for :title, "トークン新規登録" %>
-<div class="container-fluid mt-4 px-3">
-  <!-- 不要な余白を防ぐため m-0 を追加 -->
-  <div class="row m-0">
-    <!-- col-md-6 を削除し、col-12 だけで全幅を使う -->
-    <div class="col-12 p-0">
-    
-    <h1>トークン新規登録</h1>
 
-<%= render 'form', token: @token %>
+<div class="container-fluid mt-4 px-3">
+  <div class="row m-0">
+    <div class="col-12 p-0">
+      <h1>トークン新規登録</h1>
+      <%= render 'form', token: @token %>
+    </div>
+  </div>
+</div>
