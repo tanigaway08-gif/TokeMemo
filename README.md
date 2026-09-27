@@ -1,24 +1,31 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# TokeMemo🐾
 
-Things you may want to cover:
+## アプリを作った理由
+**【背景と課題】**
+プログラミング学習を進める中で、「このタグの意味は何だっけ？」「このメソッドはどう使うんだっけ？」と都度調べる作業は日常茶飯事です。しかし、そのたびに別のブラウザタブを開いて検索したり、AIに質問したりしてコンテキストが切り替わるのは、少し手間に感じていました。
 
-* Ruby version
+**【解決策】**
+調べたい「トークン（プログラミング言語の最小単位）」を素早く簡単に検索でき、さらに自分用にカスタマイズしてストックできる専用のメモアプリがあれば学習効率が上がると考え、本アプリを開発しました。
 
-* System dependencies
+## できること（機能一覧）
+- トークンの追加・編集・削除
+- トークンの検索機能
+- トークンの一覧・詳細表示
+- ログイン・ユーザー管理機能
+- ゲストログイン機能（すぐに動作確認が可能です）
 
-* Configuration
+## 技術スタック
+- バックエンド: Ruby on Rails (バージョン8.1.3)
+- データベース: PostgreSQL
+- フロントエンド: HTML / CSS (Bootstrap)
+- インフラ: Render
 
-* Database creation
+## 今後の改善ポイント
+- プロフィール詳細画面の作成（編集・削除機能の実装）
+- ゲストユーザー権限の制限（トークンの追加・編集・削除をリクエスト制に変更）
+- ブックマーク機能の実装
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## デプロイ・アクセス先
+- URL: https://tokememo.onrender.com/
