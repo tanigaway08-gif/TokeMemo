@@ -18,9 +18,10 @@
 
 ## 技術スタック
 - バックエンド: Ruby on Rails (バージョン8.1.3)
-- データベース: PostgreSQL
+- データベース: PostgreSQL（Neon）
 - フロントエンド: HTML / CSS (Bootstrap)
 - インフラ: Render
+- 監視・その他：UptimeRobot
 
 ## 今後の改善ポイント
 - プロフィール詳細画面の作成（編集・削除機能の実装）
