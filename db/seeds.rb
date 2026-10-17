@@ -17,7 +17,7 @@ if user.new_record?
   user.password = "password123"
   user.password_confirmation = "password123"
   user.name = "テストユーザー" # ← 行の先頭の「#」を消して有効化します！
-  
+
   unless user.save
     puts "❌ ユーザーの作成に失敗しました: #{user.errors.full_messages}"
     exit
