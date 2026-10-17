@@ -1,8 +1,7 @@
 class TokensController < ApplicationController
-
   # このコントローラーの画面や機能を動かす前に、必ずユーザーがログインしているか確認
   # 未ログインならログイン画面に強制的に飛ばす
-  before_action :authenticate_user! 
+  before_action :authenticate_user!
 
   # ログインしているユーザーのトークン情報を呼び出して降順に並び替えてインスタンス変数@tokensに代入する
   def index
@@ -26,7 +25,7 @@ class TokensController < ApplicationController
     queries << @tokens.where(lang_other: true)      if params[:lang_other] == "1"
 
     # 箱の中に1つでもチェックがあるならば、箱の中の条件を自動で.orで結合し、その結果該当したものをインスタンス変数に上書き
-    # 配列とreduceを使うことで、いくつチェックされるかわからない時でも選ばれた数に応じて動的にOR条件を繋いでくれる 
+    # 配列とreduceを使うことで、いくつチェックされるかわからない時でも選ばれた数に応じて動的にOR条件を繋いでくれる
     if queries.any?
       @tokens = queries.reduce { |result, query| result.or(query) }
     end
@@ -34,14 +33,13 @@ class TokensController < ApplicationController
     # ページネーション（ページ分割）の処理
     # リクエストされたページ番号（params[:page]）のデータを、1ページにつき最大10件ずつ取得して上書きする
     @tokens = @tokens.page(params[:page]).per(10)
-
   end
 
   # 今ログインしているユーザーのトークン情報からIDを使って検索し、該当したものをインスタンス変数に代入する
   def show
     @token = current_user.tokens.find(params[:id])
   end
-  
+
   # 今ログインしているユーザーに紐づいた、新しいトークン用の「空のデータ（箱）」を作成し、フォームに渡す
   def new
     @token = current_user.tokens.build
@@ -70,7 +68,7 @@ class TokensController < ApplicationController
   # 更新に失敗したらトークン編集画面のままにする
   def update
     @token = current_user.tokens.find(params[:id])
-    
+
     if @token.update(token_params)
       redirect_to token_path(@token), notice: "データを更新しました"
     else
